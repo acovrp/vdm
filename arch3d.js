@@ -17,8 +17,8 @@ function start(){
 
   const scene=new THREE.Scene();
   const camera=new THREE.PerspectiveCamera(38,1,.1,80);
-  camera.position.set(0,4.2,5.6);
-  camera.lookAt(0,.1,0);
+  camera.position.set(0,8.2,10.6);
+  camera.lookAt(0,.15,0);
 
   scene.add(new THREE.HemisphereLight(0xa9c0b4,0x08140f,.9));
   const key=new THREE.DirectionalLight(0xfff3e0,2.6); key.position.set(2.6,4.4,2.8); scene.add(key);
@@ -65,7 +65,7 @@ function start(){
   });
 
   // ---- interaction ----
-  const state={drag:false,px:0,py:0,ry:-.24,rx:0,spin:reduce?0:1};
+  const state={drag:false,px:0,py:0,ry:-.32,rx:.06,spin:reduce?0:1};
   const el=renderer.domElement;
   el.style.touchAction="pan-y";
   el.addEventListener("pointerdown",e=>{state.drag=true;state.px=e.clientX;state.py=e.clientY;el.setPointerCapture?.(e.pointerId)});
@@ -103,8 +103,8 @@ function start(){
     if(!state.drag&&state.spin) state.ry+=dt*.09;
     arch.rotation.y=state.ry;
     arch.rotation.x=state.rx;
-    camera.position.y=4.2-p*.9;
-    camera.position.z=5.6+p*.9;
+    camera.position.y=8.2-p*1.6;
+    camera.position.z=10.6+p*1.1;
     camera.lookAt(0,.1+p*.35,0);
     renderer.render(scene,camera);
     if(visible)requestAnimationFrame(frame);

@@ -78,7 +78,7 @@ function start(){
   const state={drag:false,px:0,py:0,ry:-.3,rx:0,spin:reduce?0:1};
   const el=renderer.domElement;
   el.style.touchAction="pan-y";
-  el.addEventListener("pointerdown",e=>{state.drag=true;state.px=e.clientX;state.py=e.clientY;el.setPointerCapture?.(e.pointerId)});
+  el.addEventListener("pointerdown",e=>{state.drag=true;document.querySelector("#stageHint")?.classList.add("gone");state.px=e.clientX;state.py=e.clientY;el.setPointerCapture?.(e.pointerId)});
   el.addEventListener("pointermove",e=>{
     if(!state.drag)return;
     state.ry+=(e.clientX-state.px)*.006; state.px=e.clientX; state.py=e.clientY;

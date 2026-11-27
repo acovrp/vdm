@@ -91,6 +91,8 @@ html[lang=hi] .sign{font-family:Mukta,Anton,sans-serif;font-weight:800;font-size
 .arch .lift{transform:translateY(calc(var(--p,0) * -30px))}
 .arch .post,.arch .collar,.arch .threads{opacity:clamp(0,calc((var(--p,0) - .1) * 2.4),1)}
 .arch-teeth{filter:drop-shadow(0 8px 16px rgba(0,0,0,.45))}
+.stage-hint{position:absolute;left:50%;bottom:78px;transform:translateX(-50%);z-index:2;margin:0;font-size:13px;color:var(--dim);letter-spacing:.02em;pointer-events:none;transition:opacity .4s var(--ease)}
+.stage-hint.gone{opacity:0}
 .scene-label{position:relative;z-index:2;font-family:Anton,Mukta,sans-serif;font-size:32px;letter-spacing:.02em;text-transform:uppercase;color:var(--paper);height:42px;display:flex;align-items:center;text-align:center;padding:0 12px}
 .scene-progress{position:relative;z-index:2;width:min(64vw,290px);height:3px;background:rgba(243,239,227,.18);margin-top:8px;overflow:hidden}
 .scene-progress i{display:block;height:100%;width:0;background:var(--red-hot);transform-origin:left}

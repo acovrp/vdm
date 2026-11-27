@@ -139,13 +139,15 @@ function renderEvents(){
   const today=todayIST();
   const upcoming=(profile.events||[]).filter(e=>e.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
   for(const e of upcoming){
+    const d=new Date(e.date+"T12:00:00+05:30");
     const art=document.createElement("article");art.className="event";
+    const badge=document.createElement("span");badge.className="ev-date";
+    badge.innerHTML=`<b>${new Intl.DateTimeFormat("en-GB",{day:"2-digit",timeZone:"Asia/Kolkata"}).format(d)}</b><i>${new Intl.DateTimeFormat("en-GB",{month:"short",timeZone:"Asia/Kolkata"}).format(d).toUpperCase()}</i>`;
+    const body=document.createElement("div");
     const h=document.createElement("strong");h.textContent=e.title;
-    const when=document.createElement("p");
-    const date=new Intl.DateTimeFormat(lang==="hi"?"hi-IN":"en-IN",{day:"numeric",month:"long",year:"numeric",timeZone:"Asia/Kolkata"}).format(new Date(e.date+"T12:00:00+05:30"));
-    when.textContent=`${date} · ${e.city}`;
-    const venue=document.createElement("small");venue.textContent=`${e.venue} · ${e.time} IST`;
-    art.append(h,when,venue);box.append(art);
+    const when=document.createElement("p");when.textContent=`${e.city} · ${e.time} IST`;
+    const venue=document.createElement("small");venue.textContent=e.venue;
+    body.append(h,when,venue);art.append(badge,body);box.append(art);
   }
   if(!upcoming.length){const p=document.createElement("p");p.textContent=lang==="hi"?"अगले कोर्स की जानकारी के लिए संपर्क करें।":"Get in touch for the next course dates.";box.append(p)}
   if(profile.rating&&profile.ratingVerifiedAt){const r=$("#rating");if(r)r.textContent=`${profile.rating} / 5 · Google${profile.ratingCount?` · ${profile.ratingCount} reviews`:""}`}

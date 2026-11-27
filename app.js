@@ -18,5 +18,5 @@ window.cardSelfTest=()=>({canonical:CANONICAL,phone:$(".call").getAttribute("hre
 
 // Sticky call bar appears only after the main actions scroll away.
 const quick=$("#quick"),actions=document.querySelector(".contact-actions");
-if("IntersectionObserver" in window){const io=new IntersectionObserver(([entry])=>{const show=!entry.isIntersecting&&entry.boundingClientRect.top<0;quick.classList.toggle("show",show);quick.toggleAttribute("inert",!show)},{threshold:0});io.observe(actions);quick.toggleAttribute("inert",true)}
+if("IntersectionObserver" in window){const io=new IntersectionObserver(([entry])=>{const show=!entry.isIntersecting&&entry.boundingClientRect.top<0;quick.classList.toggle("show",show);quick.toggleAttribute("inert",!show);quick.setAttribute("aria-hidden",String(!show))},{threshold:0});io.observe(actions);quick.toggleAttribute("inert",true)}
 else quick.classList.add("show");

@@ -144,6 +144,13 @@ if(heroMedia&&!reduce){
   const move=()=>{raf=0;const y=Math.min(scrollY,innerHeight);heroMedia.style.transform=`translate3d(0,${(y*.16).toFixed(1)}px,0) scale(1.04)`};
   addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(move)},{passive:true});
 }
+/* ---------- shortcuts + pwa ---------- */
+const qp=new URLSearchParams(location.search);
+if(qp.get("qr")==="1")setTimeout(openQR,400);
+if(qp.get("call")==="1")location.href="tel:+919711344420";
+if("serviceWorker" in navigator&&location.protocol==="https:"){
+  addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}),{once:true});
+}
 /* ---------- boot ---------- */
 applyLang();scene();syncQuick();
 window.__vdw={lang:()=>lang,today:todayIST,profile:()=>profile,scene:()=>sceneP};

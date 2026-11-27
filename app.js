@@ -48,70 +48,13 @@ function syncQuick(){
 }
 addEventListener("scroll",syncQuick,{passive:true});syncQuick();
 
-/* ---------- mirror loupe ---------- */
-const frame=$("#mirrorFrame"), lens=$("#lens"), hint=frame?$(".hint",frame):null;
-const lensImg=(frame&&frame.querySelector("img"))?frame.querySelector("img").src:"";
-let lensState={x:0,y:0,tx:0,ty:0,ready:false}, lensRAF=0, touched=false;
-function frameMetrics(){
-  const r=frame.getBoundingClientRect(), img=frame.querySelector("img");
-  const nw=img.naturalWidth||742, nh=img.naturalHeight||1052;
-  const scale=Math.max(r.width/nw,r.height/nh);
-  const dw=nw*scale, dh=nh*scale;
-  return {r,scale,dw,dh,ox:(r.width-dw)/2,oy:(r.height-dh)*0.14,nw,nh};
-}
-function placeLens(x,y,instant){
-  const m=frameMetrics(), R=lens.offsetWidth/2, z=1.75;
-  if(lensImg&&!lens.style.backgroundImage)lens.style.backgroundImage=`url("${lensImg}")`;
-  // keep the magnified centre inside the photo
-  x=Math.min(Math.max(x,0),m.r.width); y=Math.min(Math.max(y,0),m.r.height);
-  lensState.tx=x; lensState.ty=y;
-  lens.style.backgroundSize=`${m.dw*z}px ${m.dh*z}px`;
-  const bx=-((x-m.ox)*z-R), by=-((y-m.oy)*z-R);
-  lens.style.backgroundPosition=`${bx}px ${by}px`;
-  if(instant||reduce){lensState.x=x;lensState.y=y;lens.style.transform=`translate(${x-R}px,${y-R}px)`;lensState.ready=true}
-  else if(!lensRAF)lensRAF=requestAnimationFrame(tick);
-}
-function tick(){
-  lensState.x+=(lensState.tx-lensState.x)*.22;
-  lensState.y+=(lensState.ty-lensState.y)*.22;
-  const R=lens.offsetWidth/2;
-  lens.style.transform=`translate(${lensState.x-R}px,${lensState.y-R}px)`;
-  if(Math.abs(lensState.tx-lensState.x)>.4||Math.abs(lensState.ty-lensState.y)>.4)lensRAF=requestAnimationFrame(tick);
-  else lensRAF=0;
-}
-if(frame&&lens){
-  const rest=()=>{const m=frameMetrics();return {x:m.ox+m.nw*m.scale*.5,y:m.oy+m.nh*m.scale*.40}};
-  const start=()=>{const p=rest();placeLens(p.x,p.y,true);};
-  if("ResizeObserver" in window)new ResizeObserver(()=>{if(!touched)start()}).observe(frame);
-  start();
-  const intro=new IntersectionObserver((es)=>{for(const e of es){if(!e.isIntersecting)continue;intro.unobserve(frame);
-    if(reduce)return;
-    const p=rest();let t0=performance.now();
-    const step=t=>{const k=Math.min((t-t0)/1500,1);const ease=1-Math.pow(1-k,3);
-      placeLens(p.x+Math.sin(k*Math.PI*3)*46*(1-ease),p.y+Math.cos(k*Math.PI*2)*20*(1-ease),false);
-      if(k<1)requestAnimationFrame(step)};
-    requestAnimationFrame(step);
-  }},{threshold:.45});
-  intro.observe(frame);
-  const move=e=>{
-    const r=frame.getBoundingClientRect();
-    const t=e.touches?e.touches[0]:e;
-    placeLens(t.clientX-r.left,t.clientY-r.top,false);
-    if(!touched){touched=true;hint?.classList.add("gone")}
-  };
-  frame.addEventListener("pointerdown",e=>{frame.setPointerCapture?.(e.pointerId);move(e)});
-  frame.addEventListener("pointermove",e=>{if(e.buttons||e.pointerType==="touch")move(e)});
-  frame.addEventListener("touchstart",move,{passive:true});
-  frame.addEventListener("touchmove",move,{passive:true});
-}
-
 /* ---------- implant scroll scene ---------- */
-const track=$("#sceneTrack"), sticky=$("#sceneSticky"), bar=$("#sceneBar"), guide=$("#guide"), sceneLabel=$("#sceneLabel");
-const stageNames={en:["Crown","Abutment","Implant","Bone"],hi:["क्राउन","एबटमेंट","इम्प्लांट","हड्डी"]};
+const track=$("#sceneTrack"), sticky=$("#sceneSticky"), bar=$("#sceneBar"), guide=$("#archGuide"), sceneLabel=$("#sceneLabel");
+const stageNames={en:["Full arch","Implant positions","Full-arch restoration"],hi:["पूरा आर्च","इम्प्लांट की जगह","फुल-आर्च रिस्टोरेशन"]};
 let sceneP=-1;
 function renderSceneLabel(){
   if(!sceneLabel)return;
-  const n=stageNames[lang];const i=sceneP<.25?0:sceneP<.5?1:sceneP<.75?2:3;
+  const n=stageNames[lang];const i=sceneP<.3?0:sceneP<.68?1:2;
   if(sceneLabel.dataset.i!==String(i)){sceneLabel.dataset.i=String(i);sceneLabel.textContent=n[i]}
 }
 function scene(){
@@ -122,7 +65,7 @@ function scene(){
   sceneP=p;
   sticky.style.setProperty("--p",p.toFixed(4));
   if(bar)bar.style.width=(p*100).toFixed(1)+"%";
-  if(guide)guide.style.opacity=p>.12?String(Math.min((p-.12)*3,.9)):0;
+  if(guide)guide.style.opacity=p>.2?String(Math.min((p-.2)*2.6,.85)):0;
   renderSceneLabel();
 }
 addEventListener("scroll",()=>{scene();},{passive:true});

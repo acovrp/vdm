@@ -117,12 +117,15 @@ function start(){
     const d=fitDist()*(1-p*.1);
     camera.position.set(0,Math.sin(el)*d,Math.cos(el)*d);
     camera.lookAt(0,.15,0);
-    renderer.render(scene,camera);
+    try{renderer.render(scene,camera);fails=0}
+    catch(err){if(++fails>2){sticky.classList.remove("has3d");return}}
     if(visible)requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
   new IntersectionObserver(es=>{if(es[0].isIntersecting)requestAnimationFrame(frame)},{rootMargin:"140px"}).observe(sticky);
 
+  let fails=0;
+  el.addEventListener("webglcontextlost",()=>{sticky.classList.remove("has3d")});
   sticky.classList.add("has3d");
   window.__arch3d={renderer,scene,camera,arch,p:()=>p,shot:()=>{renderer.render(scene,camera);return renderer.domElement.toDataURL("image/jpeg",.72)}};
 }

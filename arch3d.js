@@ -16,9 +16,9 @@ function start(){
   host.appendChild(renderer.domElement);
 
   const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(38,1,.1,80);
-  camera.position.set(0,8.2,10.6);
-  camera.lookAt(0,.15,0);
+  const camera=new THREE.PerspectiveCamera(36,1,.1,80);
+  camera.position.set(0,5.6,8.4);
+  camera.lookAt(0,.55,0);
 
   scene.add(new THREE.HemisphereLight(0xa9c0b4,0x08140f,.9));
   const key=new THREE.DirectionalLight(0xfff3e0,2.6); key.position.set(2.6,4.4,2.8); scene.add(key);
@@ -30,12 +30,12 @@ function start(){
   const tiDark=new THREE.MeshStandardMaterial({color:0x93a29b,roughness:.34,metalness:1});
   const boneMat=new THREE.MeshStandardMaterial({color:0x1d382b,roughness:.95,metalness:.04});
 
-  const arch=new THREE.Group(); scene.add(arch);
+  const arch=new THREE.Group(); arch.scale.setScalar(1.25); scene.add(arch);
 
-  const ridge=new THREE.Mesh(new THREE.TorusGeometry(1,.14,8,80),boneMat);
+  const ridge=new THREE.Mesh(new THREE.TorusGeometry(1,.17,10,90),boneMat);
   ridge.rotation.x=Math.PI/2; ridge.scale.set(1.98,1.38,1); arch.add(ridge);
 
-  const kinds=[1.16,1.16,.98,.98,.86,.76,.76,.76,.76,.86,.98,.98,1.16,1.16];
+  const kinds=[.64,.62,.54,.54,.47,.42,.42,.42,.42,.47,.54,.54,.62,.64];
   const rx=1.98, rz=1.38, a0=THREE.MathUtils.degToRad(203), a1=THREE.MathUtils.degToRad(337);
   const crowns=[];
 
@@ -44,24 +44,24 @@ function start(){
     const x=Math.cos(a)*rx, z=Math.sin(a)*rz;
     const g=new THREE.Group(); g.position.set(x,0,z); g.rotation.y=Math.atan2(x,z); arch.add(g);
 
-    const platform=new THREE.Mesh(new THREE.CylinderGeometry(.2,.24,.16,20),ti);
-    platform.position.y=.1; g.add(platform);
+    const platform=new THREE.Mesh(new THREE.CylinderGeometry(.12,.15,.1,18),ti);
+    platform.position.y=.14; g.add(platform);
 
-    const screw=new THREE.Mesh(new THREE.ConeGeometry(.2,.95,16),tiDark);
-    screw.position.y=-.42; screw.rotation.x=Math.PI; g.add(screw);
-    for(let k=0;k<5;k++){
-      const ring=new THREE.Mesh(new THREE.TorusGeometry(.19-k*.018,.026,6,18),ti);
-      ring.rotation.x=Math.PI/2; ring.position.y=.02-k*.17; g.add(ring);
-    }
+    const screw=new THREE.Mesh(new THREE.ConeGeometry(.12,.62,14),tiDark);
+    screw.position.y=-.22; screw.rotation.x=Math.PI; g.add(screw);
+    [.06,-.08,-.22].forEach((y,k)=>{
+      const ring=new THREE.Mesh(new THREE.TorusGeometry(.118-k*.012,.017,5,16),ti);
+      ring.rotation.x=Math.PI/2; ring.position.y=y; g.add(ring);
+    });
 
-    const holder=new THREE.Group(); holder.position.y=.18; g.add(holder);
-    const abut=new THREE.Mesh(new THREE.CylinderGeometry(.15,.24,.34,18),ti);
-    abut.position.y=.17; holder.add(abut);
+    const holder=new THREE.Group(); holder.position.y=.16; g.add(holder);
+    const abut=new THREE.Mesh(new THREE.CylinderGeometry(.09,.14,.22,16),ti);
+    abut.position.y=.11; holder.add(abut);
 
-    const h=w*1.02;
-    const crown=new THREE.Mesh(new RoundedBoxGeometry(w,h,w*.92,3,Math.min(.2,w*.2)),enamel);
-    crown.position.y=h/2+.3; holder.add(crown);
-    crowns.push({holder,base:.18});
+    const h=w*.98;
+    const crown=new THREE.Mesh(new RoundedBoxGeometry(w,h,w*.88,3,Math.min(.14,w*.22)),enamel);
+    crown.position.y=h/2+.22; holder.add(crown);
+    crowns.push({holder,base:.16});
   });
 
   // ---- interaction ----

@@ -60,7 +60,7 @@ function frameMetrics(){
   return {r,scale,dw,dh,ox:(r.width-dw)/2,oy:(r.height-dh)*0.14,nw,nh};
 }
 function placeLens(x,y,instant){
-  const m=frameMetrics(), R=lens.offsetWidth/2, z=2.0;
+  const m=frameMetrics(), R=lens.offsetWidth/2, z=1.75;
   if(lensImg&&!lens.style.backgroundImage)lens.style.backgroundImage=`url("${lensImg}")`;
   // keep the magnified centre inside the photo
   x=Math.min(Math.max(x,0),m.r.width); y=Math.min(Math.max(y,0),m.r.height);

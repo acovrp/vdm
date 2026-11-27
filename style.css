@@ -58,8 +58,8 @@ html[lang=hi] .sign{font-family:Mukta,Anton,sans-serif;font-weight:800;font-size
 .label small{display:block;font-size:15px;color:#3E5247;margin-top:4px}
 .creds-band{margin:34px calc(-1 * var(--pad)) 0;background:var(--red);color:var(--paper);padding:26px var(--pad) 22px}
 .creds-list{font-family:Anton,Mukta,sans-serif;font-size:clamp(22px,6.5vw,30px);line-height:1.24;margin:0;letter-spacing:.015em}
-.creds-list span{display:block;white-space:nowrap}
-.creds-list i{font-style:normal;font-family:Jost,Mukta,sans-serif;font-size:.46em;letter-spacing:.01em;vertical-align:.42em;margin-left:.18em}
+.creds-list span{display:block}
+.creds-list i{font-style:normal;font-family:Jost,Mukta,sans-serif;font-size:13px;font-weight:500;letter-spacing:.01em;vertical-align:.34em;margin-left:.16em}
 .creds-note{margin:12px 0 0;font-size:14px}
 .mirror{background:var(--ink);padding:0 0 56px}
 .mirror-frame{position:relative;height:74svh;overflow:hidden;background:#0F231A;touch-action:none;cursor:grab}

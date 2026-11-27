@@ -65,8 +65,8 @@ function start(){
     const abut=new THREE.Mesh(new THREE.CylinderGeometry(.075,.115,.2,16),ti);
     abut.position.y=.1; holder.add(abut);
 
-    const h=w*1.05;
-    const crown=new THREE.Mesh(new THREE.CylinderGeometry(w*.46,w*.4,h,7),enamel);
+    const h=w*.92;
+    const crown=new THREE.Mesh(new THREE.CylinderGeometry(w*.5,w*.38,h,7),enamel);
     crown.rotation.y=Math.PI/7;
     crown.position.y=h/2+.19; holder.add(crown);
     crowns.push({holder,base:.14});
@@ -82,16 +82,18 @@ function start(){
   });
   ["pointerup","pointercancel"].forEach(t=>el.addEventListener(t,()=>state.drag=false));
 
-  let dist=9;
   function size(){
     const w=host.clientWidth||1, h=host.clientHeight||1;
     renderer.setSize(w,h,false);
     camera.aspect=w/h;
-    const vfov=THREE.MathUtils.degToRad(camera.fov);
-    const fitH=(4.6/2)/Math.tan(vfov/2);
-    const fitW=(4.6/2)/(Math.tan(vfov/2)*camera.aspect);
-    dist=Math.max(fitH,fitW)*1.02;
     camera.updateProjectionMatrix();
+  }
+  const FIT=5.1;
+  function fitDist(){
+    const vfov=THREE.MathUtils.degToRad(camera.fov);
+    const fitH=(FIT/2)/Math.tan(vfov/2);
+    const fitW=(FIT/2)/(Math.tan(vfov/2)*Math.max(camera.aspect,.2));
+    return Math.max(fitH,fitW);
   }
   new ResizeObserver(size).observe(host); size();
 
@@ -109,7 +111,7 @@ function start(){
     if(!state.drag&&state.spin)state.ry+=dt*.1;
     arch.rotation.y=state.ry; arch.rotation.x=state.rx*.4;
     const el=THREE.MathUtils.degToRad(26+p*10);
-    const d=dist*(1-p*.12);
+    const d=fitDist()*(1-p*.1);
     camera.position.set(0,Math.sin(el)*d,Math.cos(el)*d);
     camera.lookAt(0,.15,0);
     renderer.render(scene,camera);

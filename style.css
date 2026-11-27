@@ -10,3 +10,5 @@
 .quick .q-call{background:var(--olive);color:var(--paper)}.quick .q-wa{background:var(--paper)}
 footer{padding-bottom:104px}
 .expertise>p{max-width:36ch}
+
+.download-png{display:block;min-height:44px;padding-top:13px;font-size:15px;text-decoration:underline;text-underline-offset:4px}

@@ -37,9 +37,9 @@ html[lang=hi] .sign{font-family:Mukta,Anton,sans-serif;font-weight:800;font-size
 .who{padding:0 var(--pad);margin:0 0 12px;display:flex;flex-direction:column;gap:2px;font-size:16px;color:var(--dim)}
 .who strong{color:var(--paper);font-weight:600;font-size:18px}
 .digits{display:block;padding:0 var(--pad);margin:0 0 16px;font-family:Anton,Mukta,sans-serif;font-size:clamp(30px,8.4vw,44px);letter-spacing:.005em;color:var(--red-hot);line-height:1;font-variant-numeric:tabular-nums}
-.acts{display:grid;gap:8px;padding:0 var(--pad)}
-.act{display:flex;align-items:center;gap:13px;min-height:60px;padding:0 18px;font-size:18px;font-weight:500}
-.act i{margin-left:auto;font-style:normal;font-size:22px}
+.acts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:0 var(--pad)}
+.act{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;min-height:80px;padding:12px 6px;font-size:14px;font-weight:500;text-align:center;line-height:1.15}
+.act svg{width:25px;height:25px}
 .act-call{background:var(--red);color:var(--paper)}
 .act-wa{background:var(--paper);color:var(--ink)}
 .act-qr{background:var(--ink2);color:var(--paper)}
@@ -78,6 +78,10 @@ html[lang=hi] .sign{font-family:Mukta,Anton,sans-serif;font-weight:800;font-size
 .scene-head p{margin:0;color:var(--dim);max-width:26ch}
 .scene-track{height:215svh;position:relative}
 .scene-sticky{position:sticky;top:0;height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden}
+.stage3d{position:absolute;inset:0 0 96px;display:none;touch-action:pan-y}
+.stage3d canvas{display:block;width:100%!important;height:100%!important}
+#sceneSticky.has3d .stage3d{display:block}
+#sceneSticky.has3d .arch{display:none}
 .arch{width:min(94vw,430px);height:auto;overflow:visible}
 .arch .crown{fill:#F1EADA;stroke:#0A1711;stroke-width:.7}
 .arch .cusp{fill:none;stroke:#C3BAA7;stroke-width:1.1;opacity:.9}
@@ -87,8 +91,8 @@ html[lang=hi] .sign{font-family:Mukta,Anton,sans-serif;font-weight:800;font-size
 .arch .lift{transform:translateY(calc(var(--p,0) * -30px))}
 .arch .post,.arch .collar,.arch .threads{opacity:clamp(0,calc((var(--p,0) - .1) * 2.4),1)}
 .arch-teeth{filter:drop-shadow(0 8px 16px rgba(0,0,0,.45))}
-.scene-label{font-family:Anton,Mukta,sans-serif;font-size:32px;letter-spacing:.02em;text-transform:uppercase;color:var(--paper);height:42px;display:flex;align-items:center;text-align:center;padding:0 12px}
-.scene-progress{width:min(64vw,290px);height:3px;background:rgba(243,239,227,.18);margin-top:8px;overflow:hidden}
+.scene-label{position:relative;z-index:2;font-family:Anton,Mukta,sans-serif;font-size:32px;letter-spacing:.02em;text-transform:uppercase;color:var(--paper);height:42px;display:flex;align-items:center;text-align:center;padding:0 12px}
+.scene-progress{position:relative;z-index:2;width:min(64vw,290px);height:3px;background:rgba(243,239,227,.18);margin-top:8px;overflow:hidden}
 .scene-progress i{display:block;height:100%;width:0;background:var(--red-hot);transform-origin:left}
 .connect{background:var(--ink2);padding:64px var(--pad) 56px}
 .connect h2{font-size:clamp(46px,14vw,78px);margin-bottom:24px}

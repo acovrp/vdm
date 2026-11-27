@@ -28,7 +28,7 @@ html[lang=hi] .display{font-family:Mukta,Jost,sans-serif;font-weight:800;line-he
 .hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 8%;filter:grayscale(1) contrast(1.2) brightness(.74) blur(.2px);mix-blend-mode:luminosity;transform:scale(1.04);animation:heroIn 1.6s var(--ease) both}
 .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,26,20,.92) 0%,rgba(11,26,20,.42) 20%,rgba(11,26,20,.3) 38%,rgba(11,26,20,.72) 56%,rgba(11,26,20,.94) 74%,var(--ink) 92%)}
 .hero-inner{position:relative;padding:0 0 6px;z-index:2}
-.sign{font-family:Anton,Mukta,sans-serif;font-weight:400;font-size:clamp(64px,27.5vw,152px);line-height:.83;letter-spacing:-.01em;text-transform:uppercase;margin:0 0 14px;padding:0 var(--pad)}
+.sign{font-family:Anton,Mukta,sans-serif;font-weight:400;font-size:clamp(54px,22.2vw,124px);line-height:.84;letter-spacing:-.02em;text-transform:uppercase;margin:0 0 14px;padding:0 var(--pad)}
 .sign span{display:block;overflow:hidden}
 .sign span i{display:block;font-style:normal}
 .sign span:nth-child(2){color:transparent;-webkit-text-stroke:2px var(--paper)}

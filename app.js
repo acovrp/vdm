@@ -33,6 +33,7 @@ document.addEventListener("pointerdown",e=>{
 if("IntersectionObserver" in window){
   const io=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting){e.target.classList.remove("pre");io.unobserve(e.target)}}},{rootMargin:"0px 0px -6% 0px",threshold:.05});
   $$("[data-reveal]").forEach(el=>{const r=el.getBoundingClientRect();if(r.top>innerHeight*.92){el.classList.add("pre");io.observe(el)}});
+  setTimeout(()=>$$("[data-reveal].pre").forEach(el=>{if(el.getBoundingClientRect().top<innerHeight)el.classList.remove("pre")}),2500);
 }
 
 /* ---------- sticky quick bar ---------- */
@@ -79,7 +80,7 @@ function tick(){
   else lensRAF=0;
 }
 if(frame&&lens){
-  const rest=()=>{const m=frameMetrics();return {x:m.ox+m.nw*m.scale*.5,y:m.oy+m.nh*m.scale*.285}};
+  const rest=()=>{const m=frameMetrics();return {x:m.ox+m.nw*m.scale*.5,y:m.oy+m.nh*m.scale*.40}};
   const start=()=>{const p=rest();placeLens(p.x,p.y,true);};
   if("ResizeObserver" in window)new ResizeObserver(()=>{if(!touched)start()}).observe(frame);
   start();

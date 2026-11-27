@@ -66,9 +66,12 @@ function start(){
     abut.position.y=.1; holder.add(abut);
 
     const h=w*.92;
-    const crown=new THREE.Mesh(new THREE.CylinderGeometry(w*.5,w*.38,h,7),enamel);
+    const crown=new THREE.Mesh(new THREE.CylinderGeometry(w*.5,w*.38,h*.72,7),enamel);
     crown.rotation.y=Math.PI/7;
-    crown.position.y=h/2+.19; holder.add(crown);
+    crown.position.y=h*.36+.19; holder.add(crown);
+    const dome=new THREE.Mesh(new THREE.SphereGeometry(w*.5,16,10,0,Math.PI*2,0,Math.PI/2),enamel);
+    dome.scale.set(1,.62,1); dome.rotation.y=Math.PI/7;
+    dome.position.y=h*.72+.19; holder.add(dome);
     crowns.push({holder,base:.14});
   });
 

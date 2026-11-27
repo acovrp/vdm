@@ -16,9 +16,9 @@ function start(){
   host.appendChild(renderer.domElement);
 
   const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(32,1,.1,60);
-  camera.position.set(0,2.55,4.15);
-  camera.lookAt(0,.05,0);
+  const camera=new THREE.PerspectiveCamera(38,1,.1,80);
+  camera.position.set(0,4.2,5.6);
+  camera.lookAt(0,.1,0);
 
   scene.add(new THREE.HemisphereLight(0xa9c0b4,0x08140f,.9));
   const key=new THREE.DirectionalLight(0xfff3e0,2.6); key.position.set(2.6,4.4,2.8); scene.add(key);
@@ -103,8 +103,9 @@ function start(){
     if(!state.drag&&state.spin) state.ry+=dt*.09;
     arch.rotation.y=state.ry;
     arch.rotation.x=state.rx;
-    camera.position.y=2.55+p*.55;
-    camera.lookAt(0,.05+p*.25,0);
+    camera.position.y=4.2-p*.9;
+    camera.position.z=5.6+p*.9;
+    camera.lookAt(0,.1+p*.35,0);
     renderer.render(scene,camera);
     if(visible)requestAnimationFrame(frame);
   }
@@ -113,5 +114,5 @@ function start(){
   io.observe(sticky);
 
   sticky.classList.add("has3d");
-  window.__arch3d={renderer,p:()=>p,shot:(n=360)=>{renderer.render(scene,camera);return renderer.domElement.toDataURL("image/jpeg",.7)}};
+  window.__arch3d={renderer,scene,camera,arch,p:()=>p,shot:()=>{renderer.render(scene,camera);return renderer.domElement.toDataURL("image/jpeg",.7)}};
 }

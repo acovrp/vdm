@@ -30,7 +30,7 @@ html[lang=hi] .display{font-family:Mukta,Jost,sans-serif;font-weight:800;line-he
 .hero-inner{position:relative;padding:0 0 6px;z-index:2}
 .sign{font-family:Anton,Mukta,sans-serif;font-weight:400;font-size:clamp(64px,27.5vw,152px);line-height:.83;letter-spacing:-.01em;text-transform:uppercase;margin:0 0 14px;padding:0 var(--pad)}
 .sign span{display:block;overflow:hidden}
-.sign span i{display:block;font-style:normal;transform:translateY(110%);animation:wordUp .95s var(--ease) forwards;animation-delay:calc(var(--i) * 110ms + 120ms)}
+.sign span i{display:block;font-style:normal;animation:wordUp 1s var(--ease) both;animation-delay:calc(var(--i) * 110ms + 120ms)}
 .sign span:nth-child(2){color:transparent;-webkit-text-stroke:2px var(--paper)}
 .sign span:nth-child(3){color:var(--paper)}
 html[lang=hi] .sign{font-family:Mukta,Anton,sans-serif;font-weight:800;font-size:clamp(52px,20vw,120px);line-height:1.05;letter-spacing:0}
@@ -132,7 +132,7 @@ footer small{display:block;margin-top:22px;font-size:14px}
 #toast.visible{opacity:1;transform:translate(-50%,0)}
 [data-reveal]{transition:opacity .7s var(--ease),transform .9s var(--ease)}
 [data-reveal].pre{opacity:0;transform:translateY(30px)}
-@keyframes wordUp{to{transform:translateY(0)}}
+@keyframes wordUp{from{transform:translateY(112%)}to{transform:translateY(0)}}
 @keyframes heroIn{from{transform:scale(1.12)}to{transform:scale(1.04)}}
 @keyframes cue{0%,100%{transform:translateY(0);opacity:1}50%{transform:translateY(10px);opacity:.3}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.sign span i{transform:none}.hero-media img{transform:none}[data-reveal].pre{opacity:1;transform:none}}

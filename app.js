@@ -59,7 +59,7 @@ function frameMetrics(){
   return {r,scale,dw,dh,ox:(r.width-dw)/2,oy:(r.height-dh)*0.14,nw,nh};
 }
 function placeLens(x,y,instant){
-  const m=frameMetrics(), R=lens.offsetWidth/2, z=2.35;
+  const m=frameMetrics(), R=lens.offsetWidth/2, z=2.0;
   if(lensImg&&!lens.style.backgroundImage)lens.style.backgroundImage=`url("${lensImg}")`;
   // keep the magnified centre inside the photo
   x=Math.min(Math.max(x,0),m.r.width); y=Math.min(Math.max(y,0),m.r.height);
@@ -79,7 +79,7 @@ function tick(){
   else lensRAF=0;
 }
 if(frame&&lens){
-  const rest=()=>{const m=frameMetrics();return {x:m.ox+m.nw*m.scale*.5,y:m.oy+m.nh*m.scale*.30}};
+  const rest=()=>{const m=frameMetrics();return {x:m.ox+m.nw*m.scale*.5,y:m.oy+m.nh*m.scale*.285}};
   const start=()=>{const p=rest();placeLens(p.x,p.y,true);};
   if("ResizeObserver" in window)new ResizeObserver(()=>{if(!touched)start()}).observe(frame);
   start();
@@ -191,6 +191,13 @@ $("#native-share")?.addEventListener("click",async()=>{
   else copyLink();
 });
 
+/* ---------- hero parallax ---------- */
+const heroMedia=document.querySelector(".hero-media img");
+if(heroMedia&&!reduce){
+  let raf=0;
+  const move=()=>{raf=0;const y=Math.min(scrollY,innerHeight);heroMedia.style.transform=`translate3d(0,${(y*.16).toFixed(1)}px,0) scale(1.04)`};
+  addEventListener("scroll",()=>{if(!raf)raf=requestAnimationFrame(move)},{passive:true});
+}
 /* ---------- boot ---------- */
 applyLang();scene();syncQuick();
 window.__vdw={lang:()=>lang,today:todayIST,profile:()=>profile,scene:()=>sceneP};

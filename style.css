@@ -61,7 +61,7 @@ html[lang=hi] .sign{font-family:Mukta,Anton,sans-serif;font-weight:800;font-size
 .mirror{background:var(--ink);padding:0 0 56px}
 .mirror-frame{position:relative;height:74svh;overflow:hidden;background:#0F231A;touch-action:none;cursor:grab}
 .mirror-frame img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:grayscale(1) contrast(1.1);opacity:.95}
-.lens{position:absolute;top:0;left:0;width:138px;height:138px;border-radius:50%;border:3px solid var(--red-hot);background-repeat:no-repeat;box-shadow:0 0 0 1px rgba(11,26,20,.55),0 18px 40px rgba(0,0,0,.45);pointer-events:none;will-change:transform,background-position;z-index:2}
+.lens{position:absolute;top:0;left:0;width:128px;height:128px;border-radius:50%;border:2px solid var(--red-hot);background-repeat:no-repeat;box-shadow:0 0 0 1px rgba(11,26,20,.55),0 18px 40px rgba(0,0,0,.45);pointer-events:none;will-change:transform,background-position;z-index:2}
 .lens::after{content:"";position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 32% 26%,rgba(255,255,255,.42),rgba(255,255,255,0) 46%)}
 .hint{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);margin:0;background:rgba(11,26,20,.72);color:var(--paper);font-size:14px;padding:7px 14px;border-radius:30px;z-index:3;transition:opacity .4s}
 .hint.gone{opacity:0}

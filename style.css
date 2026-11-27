@@ -23,9 +23,9 @@ html[lang=hi] .display{font-family:Mukta,Jost,sans-serif;font-weight:800;line-he
 .top{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:12px var(--pad)}
 .top .brand{font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
 #language{min-height:40px;padding:6px 15px;border-radius:40px;background:var(--paper);color:var(--ink);font-size:15px;font-weight:500}
-.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--ink)}
-.hero-media{position:absolute;inset:0;overflow:hidden}
-.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 8%;filter:grayscale(1) contrast(1.2) brightness(.74) blur(.2px);mix-blend-mode:luminosity;transform:scale(1.04);animation:heroIn 1.6s var(--ease) both}
+.hero{position:relative;isolation:isolate;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--ink)}
+.hero-media{position:absolute;inset:0;overflow:hidden;isolation:isolate}
+.hero-media img{width:100%;height:100%;object-fit:cover;object-position:50% 8%;filter:grayscale(1) contrast(1.2) brightness(.74) blur(.2px);transform:scale(1.04);animation:heroIn 1.6s var(--ease) both}
 .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,26,20,.92) 0%,rgba(11,26,20,.42) 20%,rgba(11,26,20,.3) 38%,rgba(11,26,20,.72) 56%,rgba(11,26,20,.94) 74%,var(--ink) 92%)}
 .hero-inner{position:relative;padding:0 0 6px;z-index:2}
 .sign{font-family:Anton,Mukta,sans-serif;font-weight:400;font-size:clamp(54px,22.2vw,124px);line-height:.84;letter-spacing:-.02em;text-transform:uppercase;margin:0 0 14px;padding:0 var(--pad)}

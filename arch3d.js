@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { RoundedBoxGeometry } from "three/addons/geometries/RoundedBoxGeometry.js";
+import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
 const host=document.querySelector("#stage3d"), track=document.querySelector("#sceneTrack"), sticky=document.querySelector("#sceneSticky");
 const clamp=(v,a,b)=>Math.min(Math.max(v,a),b);
@@ -12,31 +12,38 @@ function start(){
   renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
   renderer.outputColorSpace=THREE.SRGBColorSpace;
   renderer.toneMapping=THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure=1.05;
+  renderer.toneMappingExposure=1.1;
   host.appendChild(renderer.domElement);
 
   const scene=new THREE.Scene();
-  const camera=new THREE.PerspectiveCamera(36,1,.1,80);
-  camera.position.set(0,5.6,8.4);
-  camera.lookAt(0,.55,0);
+  const pmrem=new THREE.PMREMGenerator(renderer);
+  scene.environment=pmrem.fromScene(new RoomEnvironment(),.04).texture;
 
-  scene.add(new THREE.HemisphereLight(0xa9c0b4,0x08140f,.9));
-  const key=new THREE.DirectionalLight(0xfff3e0,2.6); key.position.set(2.6,4.4,2.8); scene.add(key);
-  const rim=new THREE.DirectionalLight(0xe4401f,2.4); rim.position.set(-3.4,1.2,-3.6); scene.add(rim);
-  const fill=new THREE.DirectionalLight(0x6fc4a4,.45); fill.position.set(-2.4,-1.2,2.2); scene.add(fill);
+  const camera=new THREE.PerspectiveCamera(34,1,.1,100);
 
-  const enamel=new THREE.MeshStandardMaterial({color:0xf4eedf,roughness:.26,metalness:.06});
-  const ti=new THREE.MeshStandardMaterial({color:0xd2dcd6,roughness:.22,metalness:1});
-  const tiDark=new THREE.MeshStandardMaterial({color:0x93a29b,roughness:.34,metalness:1});
-  const boneMat=new THREE.MeshStandardMaterial({color:0x1d382b,roughness:.95,metalness:.04});
+  scene.add(new THREE.HemisphereLight(0x9fb6aa,0x06110c,.6));
+  const key=new THREE.DirectionalLight(0xfff4e4,2.4); key.position.set(3,6,4); scene.add(key);
+  const rim=new THREE.DirectionalLight(0xe4401f,3.0); rim.position.set(-4,1.5,-4); scene.add(rim);
 
-  const arch=new THREE.Group(); arch.scale.setScalar(1.25); scene.add(arch);
+  const enamel=new THREE.MeshPhysicalMaterial({color:0xf6f1e4,roughness:.3,metalness:.02,clearcoat:.6,clearcoatRoughness:.35});
+  const ti=new THREE.MeshStandardMaterial({color:0xd6dfda,roughness:.22,metalness:1});
+  const tiDark=new THREE.MeshStandardMaterial({color:0x94a39c,roughness:.34,metalness:1});
+  const boneMat=new THREE.MeshStandardMaterial({color:0x14291F,roughness:.95,metalness:.05});
+  const planMat=new THREE.MeshBasicMaterial({color:0xe4401f,transparent:true,opacity:.55});
 
-  const ridge=new THREE.Mesh(new THREE.TorusGeometry(1,.17,10,90),boneMat);
-  ridge.rotation.x=Math.PI/2; ridge.scale.set(1.98,1.38,1); arch.add(ridge);
+  const arch=new THREE.Group();
+  scene.add(arch);
 
-  const kinds=[.64,.62,.54,.54,.47,.42,.42,.42,.42,.47,.54,.54,.62,.64];
-  const rx=1.98, rz=1.38, a0=THREE.MathUtils.degToRad(203), a1=THREE.MathUtils.degToRad(337);
+  // bone ridge
+  const ridge=new THREE.Mesh(new THREE.TorusGeometry(1,.115,10,96),boneMat);
+  ridge.rotation.x=Math.PI/2; ridge.scale.set(1.95,1.4,1); arch.add(ridge);
+
+  // digital plan ring
+  const plan=new THREE.Mesh(new THREE.TorusGeometry(1,.006,4,120),planMat);
+  plan.rotation.x=Math.PI/2; plan.scale.set(2.32,1.78,1); plan.position.y=-.34; arch.add(plan);
+
+  const kinds=[.62,.6,.52,.52,.45,.4,.4,.4,.4,.45,.52,.52,.6,.62];
+  const rx=1.95, rz=1.4, a0=THREE.MathUtils.degToRad(202), a1=THREE.MathUtils.degToRad(338);
   const crowns=[];
 
   kinds.forEach((w,i)=>{
@@ -44,75 +51,73 @@ function start(){
     const x=Math.cos(a)*rx, z=Math.sin(a)*rz;
     const g=new THREE.Group(); g.position.set(x,0,z); g.rotation.y=Math.atan2(x,z); arch.add(g);
 
-    const platform=new THREE.Mesh(new THREE.CylinderGeometry(.12,.15,.1,18),ti);
-    platform.position.y=.14; g.add(platform);
+    const platform=new THREE.Mesh(new THREE.CylinderGeometry(.1,.13,.1,18),ti);
+    platform.position.y=.1; g.add(platform);
 
-    const screw=new THREE.Mesh(new THREE.ConeGeometry(.12,.62,14),tiDark);
-    screw.position.y=-.22; screw.rotation.x=Math.PI; g.add(screw);
-    [.06,-.08,-.22].forEach((y,k)=>{
-      const ring=new THREE.Mesh(new THREE.TorusGeometry(.118-k*.012,.017,5,16),ti);
+    const screw=new THREE.Mesh(new THREE.CylinderGeometry(.11,.055,.72,14),tiDark);
+    screw.position.y=-.36; g.add(screw);
+    [.02,-.12,-.26,-.4].forEach((y,k)=>{
+      const ring=new THREE.Mesh(new THREE.TorusGeometry(.115-k*.014,.016,5,18),ti);
       ring.rotation.x=Math.PI/2; ring.position.y=y; g.add(ring);
     });
 
-    const holder=new THREE.Group(); holder.position.y=.16; g.add(holder);
-    const abut=new THREE.Mesh(new THREE.CylinderGeometry(.09,.14,.22,16),ti);
-    abut.position.y=.11; holder.add(abut);
+    const holder=new THREE.Group(); holder.position.y=.14; g.add(holder);
+    const abut=new THREE.Mesh(new THREE.CylinderGeometry(.075,.115,.2,16),ti);
+    abut.position.y=.1; holder.add(abut);
 
-    const h=w*.98;
-    const crown=new THREE.Mesh(new RoundedBoxGeometry(w,h,w*.88,3,Math.min(.14,w*.22)),enamel);
-    crown.position.y=h/2+.22; holder.add(crown);
-    crowns.push({holder,base:.16});
+    const h=w*1.05;
+    const crown=new THREE.Mesh(new THREE.CylinderGeometry(w*.46,w*.4,h,7),enamel);
+    crown.rotation.y=Math.PI/7;
+    crown.position.y=h/2+.19; holder.add(crown);
+    crowns.push({holder,base:.14});
   });
 
-  // ---- interaction ----
-  const state={drag:false,px:0,py:0,ry:-.32,rx:.06,spin:reduce?0:1};
+  const state={drag:false,px:0,py:0,ry:-.3,rx:0,spin:reduce?0:1};
   const el=renderer.domElement;
   el.style.touchAction="pan-y";
   el.addEventListener("pointerdown",e=>{state.drag=true;state.px=e.clientX;state.py=e.clientY;el.setPointerCapture?.(e.pointerId)});
   el.addEventListener("pointermove",e=>{
     if(!state.drag)return;
-    state.ry+=(e.clientX-state.px)*.006;
-    state.rx=clamp(state.rx+(e.clientY-state.py)*.003,-.35,.5);
-    state.px=e.clientX; state.py=e.clientY;
+    state.ry+=(e.clientX-state.px)*.006; state.px=e.clientX; state.py=e.clientY;
   });
   ["pointerup","pointercancel"].forEach(t=>el.addEventListener(t,()=>state.drag=false));
 
+  let dist=9;
   function size(){
     const w=host.clientWidth||1, h=host.clientHeight||1;
     renderer.setSize(w,h,false);
-    camera.aspect=w/h; camera.updateProjectionMatrix();
+    camera.aspect=w/h;
+    const vfov=THREE.MathUtils.degToRad(camera.fov);
+    const fitH=(4.6/2)/Math.tan(vfov/2);
+    const fitW=(4.6/2)/(Math.tan(vfov/2)*camera.aspect);
+    dist=Math.max(fitH,fitW)*1.02;
+    camera.updateProjectionMatrix();
   }
   new ResizeObserver(size).observe(host); size();
 
-  // ---- scroll progress ----
   let p=0;
-  function prog(){
-    if(!track)return 0;
-    const r=track.getBoundingClientRect();
-    return clamp((0-r.top)/(r.height-innerHeight),0,1);
-  }
+  const prog=()=>{ if(!track)return 0; const r=track.getBoundingClientRect(); return clamp((0-r.top)/(r.height-innerHeight),0,1); };
 
   let visible=false;
-  new IntersectionObserver(es=>{visible=es[0].isIntersecting},{rootMargin:"120px"}).observe(sticky);
+  new IntersectionObserver(es=>{visible=es[0].isIntersecting},{rootMargin:"140px"}).observe(sticky);
 
   let last=performance.now();
   function frame(now){
     const dt=Math.min((now-last)/1000,.05); last=now;
-    p+=(prog()-p)*.12;
-    crowns.forEach(c=>{c.holder.position.y=c.base+p*.95; c.holder.rotation.x=p*.08});
-    if(!state.drag&&state.spin) state.ry+=dt*.09;
-    arch.rotation.y=state.ry;
-    arch.rotation.x=state.rx;
-    camera.position.y=8.2-p*1.6;
-    camera.position.z=10.6+p*1.1;
-    camera.lookAt(0,.1+p*.35,0);
+    p+=(prog()-p)*.1;
+    crowns.forEach(c=>{c.holder.position.y=c.base+p*1.05});
+    if(!state.drag&&state.spin)state.ry+=dt*.1;
+    arch.rotation.y=state.ry; arch.rotation.x=state.rx*.4;
+    const el=THREE.MathUtils.degToRad(26+p*10);
+    const d=dist*(1-p*.12);
+    camera.position.set(0,Math.sin(el)*d,Math.cos(el)*d);
+    camera.lookAt(0,.15,0);
     renderer.render(scene,camera);
     if(visible)requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
-  const io=new IntersectionObserver(es=>{if(es[0].isIntersecting)requestAnimationFrame(frame)},{rootMargin:"120px"});
-  io.observe(sticky);
+  new IntersectionObserver(es=>{if(es[0].isIntersecting)requestAnimationFrame(frame)},{rootMargin:"140px"}).observe(sticky);
 
   sticky.classList.add("has3d");
-  window.__arch3d={renderer,scene,camera,arch,p:()=>p,shot:()=>{renderer.render(scene,camera);return renderer.domElement.toDataURL("image/jpeg",.7)}};
+  window.__arch3d={renderer,scene,camera,arch,p:()=>p,shot:()=>{renderer.render(scene,camera);return renderer.domElement.toDataURL("image/jpeg",.72)}};
 }

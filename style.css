@@ -20,7 +20,7 @@ svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7;stroke
 .display{font-family:Anton,Mukta,system-ui,sans-serif;font-weight:400;letter-spacing:-.015em;line-height:.86;margin:0;text-transform:uppercase}
 html[lang=hi] .display{font-family:Mukta,Jost,sans-serif;font-weight:800;line-height:1.02;letter-spacing:0}
 .grain{position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.05;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E")}
-.top{position:fixed;top:0;left:50%;transform:translateX(-50%);width:100%;max-width:520px;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:12px var(--pad)}
+.top{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;justify-content:space-between;padding:12px var(--pad)}
 .top .brand{font-size:12px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--dim)}
 #language{min-height:40px;padding:6px 15px;border-radius:40px;background:var(--paper);color:var(--ink);font-size:15px;font-weight:500}
 .hero{position:relative;isolation:isolate;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;background:var(--ink)}

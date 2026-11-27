@@ -16,7 +16,7 @@ $("#copy-link").onclick=copyLink;
 // shortcut: profile is fetched on every visit; no offline cache that could hide updated details.
 window.cardSelfTest=()=>({canonical:CANONICAL,phone:$(".call").getAttribute("href"),language,events:$("#events").children.length,overflow:document.documentElement.scrollWidth>innerWidth,qr:!!$("#qr-container img"),vcard:$(".save").getAttribute("href"),date:todayIndia()});
 
-// Sticky call bar appears only after the main actions scroll away.
+// Sticky call bar: plain scroll handler works in every mobile browser, no observer to fail.
 const quick=$("#quick"),actions=document.querySelector(".contact-actions");
-if("IntersectionObserver" in window){const io=new IntersectionObserver(([entry])=>{const show=!entry.isIntersecting&&entry.boundingClientRect.top<0;quick.classList.toggle("show",show);quick.toggleAttribute("inert",!show);quick.setAttribute("aria-hidden",String(!show))},{threshold:0});io.observe(actions);quick.toggleAttribute("inert",true)}
-else quick.classList.add("show");
+function syncQuick(){const cutoff=actions.getBoundingClientRect().bottom;const show=cutoff<0;if(quick.classList.contains("show")===show)return;quick.classList.toggle("show",show);quick.toggleAttribute("inert",!show);quick.setAttribute("aria-hidden",String(!show))}
+addEventListener("scroll",syncQuick,{passive:true});syncQuick();

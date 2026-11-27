@@ -30,8 +30,10 @@ document.addEventListener("pointerdown",e=>{
 },{passive:true});
 
 /* ---------- reveal ---------- */
-const io=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}},{threshold:.18});
-$$("[data-reveal]").forEach(el=>io.observe(el));
+if("IntersectionObserver" in window){
+  const io=new IntersectionObserver(es=>{for(const e of es){if(e.isIntersecting){e.target.classList.remove("pre");io.unobserve(e.target)}}},{rootMargin:"0px 0px -6% 0px",threshold:.05});
+  $$("[data-reveal]").forEach(el=>{const r=el.getBoundingClientRect();if(r.top>innerHeight*.92){el.classList.add("pre");io.observe(el)}});
+}
 
 /* ---------- sticky quick bar ---------- */
 const quick=$("#quick");
@@ -47,6 +49,7 @@ addEventListener("scroll",syncQuick,{passive:true});syncQuick();
 
 /* ---------- mirror loupe ---------- */
 const frame=$("#mirrorFrame"), lens=$("#lens"), hint=frame?$(".hint",frame):null;
+const lensImg=(frame&&frame.querySelector("img"))?frame.querySelector("img").src:"";
 let lensState={x:0,y:0,tx:0,ty:0,ready:false}, lensRAF=0, touched=false;
 function frameMetrics(){
   const r=frame.getBoundingClientRect(), img=frame.querySelector("img");
@@ -57,6 +60,7 @@ function frameMetrics(){
 }
 function placeLens(x,y,instant){
   const m=frameMetrics(), R=lens.offsetWidth/2, z=2.35;
+  if(lensImg&&!lens.style.backgroundImage)lens.style.backgroundImage=`url("${lensImg}")`;
   // keep the magnified centre inside the photo
   x=Math.min(Math.max(x,0),m.r.width); y=Math.min(Math.max(y,0),m.r.height);
   lensState.tx=x; lensState.ty=y;
